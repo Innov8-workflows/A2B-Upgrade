@@ -439,8 +439,15 @@
   .ba-points{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:30px;}
   .ba-points li{display:flex;align-items:flex-start;gap:11px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.5;}
   .ba-points li svg{width:18px;height:18px;stroke:#4a7fff;flex-shrink:0;margin-top:2px;}
+  .ba-video-wrap + .ba-video-wrap{margin-top:72px;}
+  .ba-reverse{grid-template-columns:1fr minmax(0,400px);}
+  .ba-reverse .ba-video-frame{order:2;}
+  .ba-reverse .ba-video-content{order:1;}
   @media(max-width:768px){
     .ba-video-wrap{grid-template-columns:1fr;gap:26px;max-width:420px;margin-left:auto;margin-right:auto;}
+    .ba-video-wrap + .ba-video-wrap{margin-top:56px;}
+    .ba-reverse .ba-video-frame{order:0;}
+    .ba-reverse .ba-video-content{order:0;}
     .ba-title{font-size:26px;}
     .ba-desc{font-size:15px;}
   }
@@ -632,7 +639,7 @@
     <div class="reveal" style="text-align:center;max-width:700px;margin:0 auto 48px;">
       <div class="section-label" style="color:#4a7fff;justify-content:center;">Before &amp; After</div>
       <h2 class="section-title" style="color:#fff;">See The <span class="blue">Difference</span></h2>
-      <p class="section-body" style="color:rgba(255,255,255,0.5);margin:0 auto;">Real jobs, real results &mdash; watch a recent A2B project come together from start to finish.</p>
+      <p class="section-body" style="color:rgba(255,255,255,0.5);margin:0 auto;">Real jobs, real results &mdash; watch recent A2B projects come together from start to finish.</p>
     </div>
     <div class="ba-video-wrap reveal">
       <div class="ba-video-frame">
@@ -649,6 +656,26 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Timber-framed &amp; fully insulated</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Matching slate with lead flashing &amp; soakers</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Backed by our 10-year workmanship guarantee</li>
+        </ul>
+        <a href="#contact" class="btn-primary">Get a Free Quote</a>
+      </div>
+    </div>
+
+    <div class="ba-video-wrap ba-reverse reveal">
+      <div class="ba-video-frame">
+        <video class="ba-video" muted loop playsinline preload="metadata" poster="before-after-02-poster.jpg">
+          <source src="before-after-02.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="ba-video-content">
+        <div class="ba-tag">Recent Project</div>
+        <h3 class="ba-title">Mock-Tudor Gable Restoration</h3>
+        <p class="ba-desc">A weathered mock-Tudor gable apex brought back to life &mdash; the tired timber boards renewed, the render between them refreshed, and the whole feature finished in a crisp black-and-white that lifts the entire frontage.</p>
+        <ul class="ba-points">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Tired timber apex boards renewed &amp; repainted</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Render panels cleaned up &amp; refreshed</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Sharp black-and-white period finish</li>
         </ul>
         <a href="#contact" class="btn-primary">Get a Free Quote</a>
       </div>
@@ -1156,19 +1183,19 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Before/After video — autoplay when scrolled into view, pause when out
   (function(){
-    var v = document.querySelector(".ba-video");
-    if (!v) return;
-    v.muted = true;
+    var vids = document.querySelectorAll(".ba-video");
+    if (!vids.length) return;
     if ("IntersectionObserver" in window) {
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(en){
+          var v = en.target;
           if (en.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
           else { v.pause(); }
         });
       }, {threshold: 0.35});
-      io.observe(v);
+      vids.forEach(function(v){ v.muted = true; io.observe(v); });
     } else {
-      var p = v.play(); if (p && p.catch) p.catch(function(){});
+      vids.forEach(function(v){ v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function(){}); });
     }
   })();
 
